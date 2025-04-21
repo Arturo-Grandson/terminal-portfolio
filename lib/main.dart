@@ -45,6 +45,13 @@ class _HomePageState extends State<HomePage> {
     _commandFocusNode.requestFocus();
   }
 
+  void _updateDirectoryAndContent(String newDirectory, String content) {
+    setState(() {
+      _currentDirectory = newDirectory;
+      _currentContent = content;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,13 +101,13 @@ class _HomePageState extends State<HomePage> {
                                 _buildTerminalLine(
                                   'arturo@portfolio:~\$ about',
                                   '''
-[SOBRE MÍ]
+[SOBRE MÍ] 👦
 Desarrollador Backend con 3 años de experiencia, especializado en arquitecturas escalables y APIs REST. Experto en optimización de bases de datos y sistemas distribuidos.
 
-[OBJETIVOS]
+[OBJETIVOS] 🎯
 Diseñar y desarrollar sistemas backend robustos y escalables, implementar arquitecturas de microservicios eficientes y optimizar el rendimiento de APIs.
 
-[HABILIDADES]
+[HABILIDADES] 💻
 Node.js - Desarrollo de APIs y microservicios
 Express - Framework para APIs REST
 MongoDB - Base de datos NoSQL
@@ -112,7 +119,7 @@ REST/GraphQL - Diseño de APIs
 WebSockets - Comunicación en tiempo real
 JWT/OAuth - Autenticación y autorización
 
-[PROYECTOS DESTACADOS]
+[PROYECTOS DESTACADOS] 💻
 API Gateway - Sistema de gestión de APIs
 Microservicios E-commerce - Arquitectura distribuida
 Sistema de Reservas - Backend con WebSockets
@@ -142,7 +149,7 @@ Escribe "help" para ver los comandos disponibles
                       Row(
                         children: [
                           Text(
-                            'arturo@portfolio:$_currentDirectory\$',
+                            'arturo@portfolio:$_currentDirectory\$ ',
                             style: const TextStyle(
                               color: Colors.white70,
                               fontFamily: 'monospace',
@@ -161,20 +168,21 @@ Escribe "help" para ver los comandos disponibles
                                 fontSize: 14,
                                 fontWeight: FontWeight.w300,
                               ),
+                              cursorWidth: 8,
+                              cursorColor: Colors.white,
+                              showCursor: true,
                               decoration: const InputDecoration(
                                 border: InputBorder.none,
                                 hintText: 'type a command...',
                                 hintStyle: TextStyle(
-                                  color: Colors.white70,
+                                  color: Color.fromARGB(75, 255, 255, 255),
                                   fontFamily: 'monospace',
                                   fontSize: 14,
                                   fontWeight: FontWeight.w300,
+                                  fontStyle: FontStyle.italic,
                                 ),
                               ),
-                              onSubmitted: (command) {
-                                _handleCommand(command);
-                                _commandFocusNode.requestFocus();
-                              },
+                              onSubmitted: _handleCommand,
                             ),
                           ),
                         ],
@@ -269,26 +277,44 @@ Escribe "help" para ver los comandos disponibles
   }
 
   void _handleCommand(String command) {
+    _commandController.clear();
+    _commandFocusNode.requestFocus();
+
+    if (command.trim().isEmpty) return;
+
     setState(() {
       _commandHistory.add(command);
-      _commandController.clear();
       _showInitialInfo = false;
 
       // Manejar comandos de navegación
       if (command.startsWith('cd ')) {
         final directory = command.substring(3).trim();
-        switch (directory) {
-          case '..':
-            if (_currentDirectory != '~') {
-              _currentDirectory = '~';
-              _currentContent = 'Volviendo al directorio principal...';
-            } else {
-              _currentContent = 'Ya estás en el directorio principal';
-            }
-            break;
-          case 'proyectos':
-            _currentDirectory = '~/proyectos';
+
+        // Manejar cd ..
+        if (directory == '..') {
+          if (_currentDirectory == '~') {
+            _currentContent = 'Ya estás en el directorio principal';
+          } else {
+            _currentDirectory = '~';
             _currentContent = '''
+            [Directorios]
+            📁 proyectos/
+            📁 sobre-mi/
+
+            [Archivos]
+            📄 contacto.txt
+            📄 skills.txt
+            ''';
+          }
+          return;
+        }
+
+        // Manejar cd a otros directorios
+        switch (directory) {
+          case 'proyectos':
+            if (_currentDirectory == '~') {
+              _currentDirectory = '~/proyectos';
+              _currentContent = '''
 [API Gateway]
 Descripción: Sistema de gestión de APIs con autenticación y rate limiting
 Tecnologías: Node.js, Express, Redis, JWT
@@ -311,18 +337,27 @@ Enlace: https://github.com/arturo/news-api
 
 Escribe "open [número]" para abrir el proyecto (ejemplo: "open 1" para abrir el primer proyecto)
 ''';
+            } else {
+              _currentContent =
+                  'Ya estás en un directorio. Usa "cd .." para volver primero.';
+            }
             break;
           case 'sobre-mi':
-            _currentDirectory = '~/sobre-mi';
-            _currentContent = '''
-[Sobre Mí]
+            if (_currentDirectory == '~') {
+              _currentDirectory = '~/sobre-mi';
+              _currentContent = '''
+[Sobre Mí] 👦
 Desarrollador Backend con 3 años de experiencia, especializado en arquitecturas escalables y APIs REST. Experto en optimización de bases de datos y sistemas distribuidos.
 
-[Objetivos]
+[Objetivos] 🎯
 Diseñar y desarrollar sistemas backend robustos y escalables, implementar arquitecturas de microservicios eficientes y optimizar el rendimiento de APIs.
 
 Escribe "more" para ver más información
 ''';
+            } else {
+              _currentContent =
+                  'Ya estás en un directorio. Usa "cd .." para volver primero.';
+            }
             break;
           default:
             _currentContent =
@@ -340,56 +375,56 @@ Escribe "more" para ver más información
           return;
         case 'cat contacto.txt':
           _currentContent = '''
-[Contacto]
-Email: arturo@example.com
-GitHub: github.com/arturo
-LinkedIn: linkedin.com/in/arturo
-Teléfono: +1234567890
+            [Contacto]
+            📧 Email: arturo@example.com
+            👤 GitHub: github.com/arturo
+            👔 LinkedIn: linkedin.com/in/arturo
+            📱 Teléfono: +1234567890
 
-Escribe "contact [método]" para contactarme (ejemplo: "contact email")
-''';
+            Escribe "contact [método]" para contactarme (ejemplo: "contact email")
+            ''';
           break;
         case 'cat skills.txt':
           _currentContent = '''
-[Habilidades Backend]
-Node.js - Desarrollo de APIs y microservicios
-Express - Framework para APIs REST
-MongoDB - Base de datos NoSQL
-PostgreSQL - Base de datos relacional
-Redis - Caché y mensajería
-Docker - Contenedorización
-Kubernetes - Orquestación de contenedores
-REST/GraphQL - Diseño de APIs
-WebSockets - Comunicación en tiempo real
-JWT/OAuth - Autenticación y autorización
+            [Habilidades Backend]
+            • Node.js - Desarrollo de APIs y microservicios
+            • Express - Framework para APIs REST
+            • MongoDB - Base de datos NoSQL
+            • PostgreSQL - Base de datos relacional
+            • Redis - Caché y mensajería
+            • Docker - Contenedorización
+            • Kubernetes - Orquestación de contenedores
+            REST/GraphQL - Diseño de APIs
+            WebSockets - Comunicación en tiempo real
+            JWT/OAuth - Autenticación y autorización
 
-Escribe "skill [nombre]" para ver detalles (ejemplo: "skill node")
-''';
+            Escribe "skill [nombre]" para ver detalles (ejemplo: "skill node")
+            ''';
           break;
         case 'ls':
           _currentContent = '''
-[Directorios]
-proyectos/
-sobre-mi/
+            [Directorios]
+            📁 proyectos/
+            📁 sobre-mi/
 
-[Archivos]
-contacto.txt
-skills.txt
-''';
+            [Archivos]
+            📄 contacto.txt
+            📄 skills.txt
+            ''';
           break;
         case 'help':
           _currentContent = '''
-[Comandos Disponibles]
-cd [directorio] - Cambiar directorio (ejemplo: "cd proyectos")
-cd .. - Volver al directorio anterior
-ls - Listar archivos
-cat [archivo] - Mostrar contenido
-open [número] - Abrir proyecto (en directorio proyectos)
-contact [método] - Contactar por método específico
-skill [nombre] - Ver detalles de habilidad
-clear - Limpiar la terminal
-help - Mostrar esta ayuda
-''';
+            [Comandos Disponibles]
+            cd [directorio] - Cambiar directorio (ejemplo: "cd proyectos")
+            cd .. - Volver al directorio anterior
+            ls - Listar archivos
+            cat [archivo] - Mostrar contenido
+            open [número] - Abrir proyecto (en directorio proyectos)
+            contact [método] - Contactar por método específico
+            skill [nombre] - Ver detalles de habilidad
+            clear - Limpiar la terminal
+            help - Mostrar esta ayuda
+            ''';
           break;
         case 'open 1':
           if (_currentDirectory == '~/proyectos') {
@@ -427,9 +462,6 @@ help - Mostrar esta ayuda
                 'Este comando solo funciona en el directorio de proyectos';
           }
           break;
-        case 'contact email':
-          _currentContent = 'Enviando email a arturo@example.com...';
-          break;
         case 'contact github':
           _currentContent = 'Redirigiendo a github.com/arturo...';
           break;
@@ -438,25 +470,14 @@ help - Mostrar esta ayuda
           break;
         case 'skill node':
           _currentContent = '''
-[Node.js]
-• 3 años de experiencia
-• Desarrollo de APIs REST y GraphQL
-• Arquitectura de microservicios
-• Optimización de rendimiento
-• Manejo de bases de datos
-• Implementación de autenticación
-''';
-          break;
-        case 'skill docker':
-          _currentContent = '''
-[Docker]
-• Contenedorización de aplicaciones
-• Optimización de imágenes
-• Docker Compose
-• Integración con CI/CD
-• Gestión de volúmenes
-• Networking entre contenedores
-''';
+            [Node.js]
+            • 3 años de experiencia
+            • Desarrollo de APIs REST y GraphQL
+            • Arquitectura de microservicios
+            • Optimización de rendimiento
+            • Manejo de bases de datos
+            • Implementación de autenticación
+            ''';
           break;
         default:
           _currentContent =
