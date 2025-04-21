@@ -101,32 +101,32 @@ class _HomePageState extends State<HomePage> {
                                 _buildTerminalLine(
                                   'arturo@portfolio:~\$ about',
                                   '''
-[SOBRE MÍ] 👦
-Desarrollador Backend con 3 años de experiencia, especializado en arquitecturas escalables y APIs REST. Experto en optimización de bases de datos y sistemas distribuidos.
+                                  [SOBRE MÍ] 👦
+                                  Desarrollador Backend con 3 años de experiencia, especializado en arquitecturas escalables y APIs REST. Experto en optimización de bases de datos y sistemas distribuidos.
 
-[OBJETIVOS] 🎯
-Diseñar y desarrollar sistemas backend robustos y escalables, implementar arquitecturas de microservicios eficientes y optimizar el rendimiento de APIs.
+                                  [OBJETIVOS] 🎯
+                                  Diseñar y desarrollar sistemas backend robustos y escalables, implementar arquitecturas de microservicios eficientes y optimizar el rendimiento de APIs.
 
-[HABILIDADES] 💻
-Node.js - Desarrollo de APIs y microservicios
-Express - Framework para APIs REST
-MongoDB - Base de datos NoSQL
-PostgreSQL - Base de datos relacional
-Redis - Caché y mensajería
-Docker - Contenedorización
-Kubernetes - Orquestación de contenedores
-REST/GraphQL - Diseño de APIs
-WebSockets - Comunicación en tiempo real
-JWT/OAuth - Autenticación y autorización
+                                  [HABILIDADES] 💻
+                                  Node.js - Desarrollo de APIs y microservicios
+                                  Express - Framework para APIs REST
+                                  MongoDB - Base de datos NoSQL
+                                  PostgreSQL - Base de datos relacional
+                                  Redis - Caché y mensajería
+                                  Docker - Contenedorización
+                                  Kubernetes - Orquestación de contenedores
+                                  REST/GraphQL - Diseño de APIs
+                                  WebSockets - Comunicación en tiempo real
+                                  JWT/OAuth - Autenticación y autorización
 
-[PROYECTOS DESTACADOS] 💻
-API Gateway - Sistema de gestión de APIs
-Microservicios E-commerce - Arquitectura distribuida
-Sistema de Reservas - Backend con WebSockets
-API de Noticias - Servicio con caché
+                                  [PROYECTOS DESTACADOS] 💻
+                                  API Gateway - Sistema de gestión de APIs
+                                  Microservicios E-commerce - Arquitectura distribuida
+                                  Sistema de Reservas - Backend con WebSockets
+                                  API de Noticias - Servicio con caché
 
-Escribe "help" para ver los comandos disponibles
-''',
+                                  Escribe "help" para ver los comandos disponibles
+                                  ''',
                                 ),
                                 const SizedBox(height: 10),
                               ],
@@ -315,28 +315,28 @@ Escribe "help" para ver los comandos disponibles
             if (_currentDirectory == '~') {
               _currentDirectory = '~/proyectos';
               _currentContent = '''
-[API Gateway]
-Descripción: Sistema de gestión de APIs con autenticación y rate limiting
-Tecnologías: Node.js, Express, Redis, JWT
-Enlace: https://github.com/arturo/api-gateway
+                [API Gateway]
+                Descripción: Sistema de gestión de APIs con autenticación y rate limiting
+                Tecnologías: Node.js, Express, Redis, JWT
+                Enlace: https://github.com/arturo/api-gateway
 
-[Microservicios E-commerce]
-Descripción: Arquitectura de microservicios para plataforma de venta
-Tecnologías: Node.js, Docker, Kubernetes, MongoDB
-Enlace: https://github.com/arturo/ecommerce-ms
+                [Microservicios E-commerce]
+                Descripción: Arquitectura de microservicios para plataforma de venta
+                Tecnologías: Node.js, Docker, Kubernetes, MongoDB
+                Enlace: https://github.com/arturo/ecommerce-ms
 
-[Sistema de Reservas]
-Descripción: Backend para gestión de reservas con integración de pagos
-Tecnologías: Node.js, PostgreSQL, Stripe, WebSockets
-Enlace: https://github.com/arturo/booking-system
+                [Sistema de Reservas]
+                Descripción: Backend para gestión de reservas con integración de pagos
+                Tecnologías: Node.js, PostgreSQL, Stripe, WebSockets
+                Enlace: https://github.com/arturo/booking-system
 
-[API de Noticias]
-Descripción: API REST para gestión de noticias con caché
-Tecnologías: Node.js, Redis, Elasticsearch, MongoDB
-Enlace: https://github.com/arturo/news-api
+                [API de Noticias]
+                Descripción: API REST para gestión de noticias con caché
+                Tecnologías: Node.js, Redis, Elasticsearch, MongoDB
+                Enlace: https://github.com/arturo/news-api
 
-Escribe "open [número]" para abrir el proyecto (ejemplo: "open 1" para abrir el primer proyecto)
-''';
+                Escribe "open [número]" para abrir el proyecto (ejemplo: "open 1" para abrir el primer proyecto)
+                ''';
             } else {
               _currentContent =
                   'Ya estás en un directorio. Usa "cd .." para volver primero.';
@@ -346,14 +346,14 @@ Escribe "open [número]" para abrir el proyecto (ejemplo: "open 1" para abrir el
             if (_currentDirectory == '~') {
               _currentDirectory = '~/sobre-mi';
               _currentContent = '''
-[Sobre Mí] 👦
-Desarrollador Backend con 3 años de experiencia, especializado en arquitecturas escalables y APIs REST. Experto en optimización de bases de datos y sistemas distribuidos.
+                [Sobre Mí] 👦
+                Desarrollador Backend con 3 años de experiencia, especializado en arquitecturas escalables y APIs REST. Experto en optimización de bases de datos y sistemas distribuidos.
 
-[Objetivos] 🎯
-Diseñar y desarrollar sistemas backend robustos y escalables, implementar arquitecturas de microservicios eficientes y optimizar el rendimiento de APIs.
+                [Objetivos] 🎯
+                Diseñar y desarrollar sistemas backend robustos y escalables, implementar arquitecturas de microservicios eficientes y optimizar el rendimiento de APIs.
 
-Escribe "more" para ver más información
-''';
+                Escribe "more" para ver más información
+                ''';
             } else {
               _currentContent =
                   'Ya estás en un directorio. Usa "cd .." para volver primero.';
