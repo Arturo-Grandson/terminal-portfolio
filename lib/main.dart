@@ -100,33 +100,35 @@ class _HomePageState extends State<HomePage> {
                                 const SizedBox(height: 10),
                                 _buildTerminalLine(
                                   'arturo@portfolio:~\$ about',
-                                  '''
-                                  [SOBRE MÍ] 👦
-                                  Desarrollador Backend con 3 años de experiencia, especializado en arquitecturas escalables y APIs REST. Experto en optimización de bases de datos y sistemas distribuidos.
+                                  '''[SOBRE MÍ] 👦
+Desarrollador Backend con 3 años de experiencia, especializado en 
+arquitecturas escalables y APIs REST. Experto en optimización de 
+bases de datos y sistemas distribuidos.
 
-                                  [OBJETIVOS] 🎯
-                                  Diseñar y desarrollar sistemas backend robustos y escalables, implementar arquitecturas de microservicios eficientes y optimizar el rendimiento de APIs.
+[OBJETIVOS] 🎯
+Diseñar y desarrollar sistemas backend robustos y escalables, 
+implementar arquitecturas de microservicios eficientes y optimizar 
+el rendimiento de APIs.
 
-                                  [HABILIDADES] 💻
-                                  Node.js - Desarrollo de APIs y microservicios
-                                  Express - Framework para APIs REST
-                                  MongoDB - Base de datos NoSQL
-                                  PostgreSQL - Base de datos relacional
-                                  Redis - Caché y mensajería
-                                  Docker - Contenedorización
-                                  Kubernetes - Orquestación de contenedores
-                                  REST/GraphQL - Diseño de APIs
-                                  WebSockets - Comunicación en tiempo real
-                                  JWT/OAuth - Autenticación y autorización
+[HABILIDADES] 💻
+Node.js - Desarrollo de APIs y microservicios
+Express - Framework para APIs REST
+MongoDB - Base de datos NoSQL
+PostgreSQL - Base de datos relacional
+Redis - Caché y mensajería
+Docker - Contenedorización
+Kubernetes - Orquestación de contenedores
+REST/GraphQL - Diseño de APIs
+WebSockets - Comunicación en tiempo real
+JWT/OAuth - Autenticación y autorización
 
-                                  [PROYECTOS DESTACADOS] 💻
-                                  API Gateway - Sistema de gestión de APIs
-                                  Microservicios E-commerce - Arquitectura distribuida
-                                  Sistema de Reservas - Backend con WebSockets
-                                  API de Noticias - Servicio con caché
+[PROYECTOS DESTACADOS] 💻
+API Gateway - Sistema de gestión de APIs
+Microservicios E-commerce - Arquitectura distribuida
+Sistema de Reservas - Backend con WebSockets
+API de Noticias - Servicio con caché
 
-                                  Escribe "help" para ver los comandos disponibles
-                                  ''',
+Escribe "help" para ver los comandos disponibles''',
                                 ),
                                 const SizedBox(height: 10),
                               ],
@@ -256,18 +258,33 @@ class _HomePageState extends State<HomePage> {
     ];
 
     if (response.isNotEmpty) {
-      children.addAll([
-        const SizedBox(height: 5),
-        Text(
-          response,
-          style: const TextStyle(
-            color: Color(0xFF6A993E),
-            fontFamily: 'monospace',
-            fontSize: 14,
-            fontWeight: FontWeight.w300,
+      final lines = response.split('\n');
+      for (var i = 0; i < lines.length; i++) {
+        final line = lines[i];
+        if (line.trim().isEmpty) {
+          children.add(const SizedBox(height: 10));
+          continue;
+        }
+
+        children.add(
+          Text(
+            line,
+            style: TextStyle(
+              color:
+                  line.contains('[') && line.contains(']')
+                      ? Colors.white
+                      : const Color(0xFF6A993E),
+              fontFamily: 'monospace',
+              fontSize: 14,
+              fontWeight: FontWeight.w300,
+            ),
           ),
-        ),
-      ]);
+        );
+
+        if (i < lines.length - 1) {
+          children.add(const SizedBox(height: 5));
+        }
+      }
     }
 
     return Column(
